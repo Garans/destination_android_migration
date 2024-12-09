@@ -25,8 +25,8 @@ import android.widget.ImageView;
 
 import com.tfcamerademo.Classifier;
 
-import org.tensorflow.lite.Interpreter;
-
+import org.tensorflow.Operation;
+import org.tensorflow.contrib.android.TensorFlowInferenceInterface;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -67,7 +67,7 @@ public class TensorFlowImageClassifier2 implements Classifier {
     private static ImageView iv12;
     private boolean logStats = false;
 
-    private Interpreter interpreter;
+    private TensorFlowInferenceInterface interpreter;
 
     private TensorFlowImageClassifier2() {
     }
@@ -118,7 +118,7 @@ public class TensorFlowImageClassifier2 implements Classifier {
             throw new RuntimeException("Problem reading label file!", e);
         }
 
-        c.interpreter = new Interpreter(assetManager.openFd(modelFilename));
+        c.interpreter = new TensorFlowInferenceInterface(assetManager, modelFilename);
 
         // The shape of the output is [N, NUM_CLASSES], where N is the batch size.
         final int numClasses = inputSize_W * inputSize_H;
@@ -158,13 +158,17 @@ public class TensorFlowImageClassifier2 implements Classifier {
 
         // Copy the input data into TensorFlow.
         Trace.beginSection("feed");
-        interpreter.run(floatValues, outputs);
+        interpreter.feed(inputName, floatValues, 1, inputSize_W, inputSize_H, 3);
+        Trace.endSection();
+
+        // Run the inference call.
+        Trace.beginSection("run");
+        interpreter.run(outputNames, logStats);
         Trace.endSection();
 
         // Copy the output Tensor back into the output array.
         Trace.beginSection("fetch");
-        interpreter.runForMultipleInputsOutputs(new Object[]{floatValues}, new Map<Integer, Object>(){{put(0, outputs);}});
-
+        interpreter.fetch(outputName, outputs);
         int[] b = new int[inputSize_W * inputSize_H];
 
         for (int j = 0; j < outputs.length; j++) {

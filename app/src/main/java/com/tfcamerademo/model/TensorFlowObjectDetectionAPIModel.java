@@ -23,9 +23,7 @@ import android.os.Trace;
 
 import com.tfcamerademo.Classifier;
 
-import org.tensorflow.Graph;
-import org.tensorflow.Operation;
-import org.tensorflow.lite.Interpreter;
+import org.tensorflow.contrib.android.TensorFlowInferenceInterface;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -63,7 +61,7 @@ public class TensorFlowObjectDetectionAPIModel implements Classifier {
 
     private boolean logStats = false;
 
-    private Interpreter inferenceInterface;
+    private TensorFlowInferenceInterface inferenceInterface;
 
     /**
      * Initializes a native TensorFlow session for classifying images.
@@ -92,7 +90,7 @@ public class TensorFlowObjectDetectionAPIModel implements Classifier {
         br.close();
 
 
-        d.inferenceInterface = new Interpreter(assetManager.openFd(modelFilename));
+        d.inferenceInterface = new TensorFlowInferenceInterface(assetManager, modelFilename);
 
         d.inputName = "image_tensor";
         d.inputSize = inputSize;

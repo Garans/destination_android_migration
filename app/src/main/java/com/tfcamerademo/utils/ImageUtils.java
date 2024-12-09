@@ -21,6 +21,7 @@ import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.util.Base64;
 import android.util.Log;
 
@@ -348,7 +349,7 @@ public class ImageUtils {
         paint.setStrokeWidth(borderWidth);
         canvas.drawRect(rec, paint);
         canvas.drawBitmap(src, borderWidth / 2, borderWidth / 2, null);
-        canvas.save(Canvas.ALL_SAVE_FLAG);
+        canvas.save();
         canvas.restore();
         if (!src.isRecycled()) src.recycle();
         return out;
