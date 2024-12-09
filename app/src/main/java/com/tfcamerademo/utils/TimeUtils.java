@@ -8,13 +8,6 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
-import static com.tfcamerademo.utils.ConstUtils.*;
-import static com.tfcamerademo.utils.ConstUtils.DAY;
-import static com.tfcamerademo.utils.ConstUtils.HOUR;
-import static com.tfcamerademo.utils.ConstUtils.MIN;
-import static com.tfcamerademo.utils.ConstUtils.MSEC;
-import static com.tfcamerademo.utils.ConstUtils.SEC;
-
 
 /**
  * 时间工具类
@@ -87,18 +80,19 @@ public class TimeUtils {
 
     private static long milliseconds2Unit(long milliseconds, TimeUnit unit) {
         switch (unit) {
-            case MSEC:
-                return milliseconds / MSEC;
-            case SEC:
-                return milliseconds / SEC;
-            case MIN:
-                return milliseconds / MIN;
-            case HOUR:
-                return milliseconds / HOUR;
-            case DAY:
-                return milliseconds / DAY;
+            case MILLISECONDS:
+                return milliseconds; // No conversion needed for milliseconds
+            case SECONDS:
+                return TimeUnit.MILLISECONDS.toSeconds(milliseconds); // Convert milliseconds to seconds
+            case MINUTES:
+                return TimeUnit.MILLISECONDS.toMinutes(milliseconds); // Convert milliseconds to minutes
+            case HOURS:
+                return TimeUnit.MILLISECONDS.toHours(milliseconds); // Convert milliseconds to hours
+            case DAYS:
+                return TimeUnit.MILLISECONDS.toDays(milliseconds); // Convert milliseconds to days
+            default:
+                return -1; // Return -1 for invalid TimeUnit
         }
-        return -1;
     }
 
     public static long getIntervalTime(String time0, String time1, TimeUnit unit) {

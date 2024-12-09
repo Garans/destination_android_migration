@@ -20,7 +20,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.DialogFragment;
+import androidx.fragment.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageInfo;
@@ -52,9 +52,10 @@ import android.os.HandlerThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.DialogFragment;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.legacy.app.FragmentCompat;
+
 import android.util.Log;
 import android.util.Size;
 import android.view.LayoutInflater;
@@ -556,7 +557,7 @@ public class Camera2BasicFragment4 extends Fragment
 
         Log.e("ccccccc", width + "   " + height);
         if (!checkedPermissions && !allPermissionsGranted()) {
-            FragmentCompat.requestPermissions(this, getRequiredPermissions(), PERMISSIONS_REQUEST_CODE);
+            ActivityCompat.requestPermissions(this.getActivity(), getRequiredPermissions(), PERMISSIONS_REQUEST_CODE);
             return;
         } else {
             checkedPermissions = true;

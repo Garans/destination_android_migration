@@ -15,7 +15,7 @@ limitations under the License.
 
 package com.tfcamerademo.activity;
 
-import android.app.Activity;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import android.os.Bundle;
 
@@ -28,7 +28,7 @@ import com.tfcamerademo.R;
 /**
  * Main {@code Activity} class for the Camera app.
  */
-public class CameraActivity extends Activity {
+public class CameraActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,16 +39,16 @@ public class CameraActivity extends Activity {
             Fragment fragment = null;
             switch (flag) {
                 case 1:
-                    fragment = Camera2BasicFragment.newInstance();
+                    fragment = new Camera2BasicFragment();
                     break;
                 case 2:
-                    fragment = Camera2BasicFragment2.newInstance();
+                    fragment = new Camera2BasicFragment2();
                     break;
                 case 3:
-                    fragment = Camera2BasicFragment3.newInstance();
+                    fragment = new Camera2BasicFragment3();
                     break;
                 case 4:
-                    fragment = Camera2BasicFragment4.newInstance();
+                    fragment = new Camera2BasicFragment4();
                     break;
             }
             getSupportFragmentManager()
